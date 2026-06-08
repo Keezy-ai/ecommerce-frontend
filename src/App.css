@@ -1,0 +1,12 @@
+.container { max-width: 1200px; margin: auto; padding: 20px; }
+.main { display: flex; gap: 40px; flex-wrap: wrap; }
+.products { flex: 2; }
+.product-grid { display: flex; flex-wrap: wrap; gap: 20px; }
+.product-card { border: 1px solid #ddd; padding: 10px; width: 200px; text-align: center; }
+.cart { flex: 1; border-left: 1px solid #ccc; padding-left: 20px; }
+.cart-item { display: flex; justify-content: space-between; margin: 10px 0; }
+.total { margin: 20px 0; font-weight: bold; }
+input, button { margin: 5px; padding: 8px; }
+.mpesa-box { margin-top: 20px; border-top: 1px solid #ccc; padding-top: 15px; }
+.success { color: green; margin-top: 10px; }
+.admin-login, .admin-dashboard { max-width: 600px; margin: 50px auto; }
