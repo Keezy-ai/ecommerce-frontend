@@ -7,6 +7,11 @@ import './App.css';
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
+// ----------------------------------------------
+// 🔥 HARDCODED BACKEND URL – REPLACE WITH YOUR RENDER URL
+// ----------------------------------------------
+const BACKEND_URL = "https://ecommerce-backend-c5fg.onrender.com";
+
 function App() {
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState([]);
@@ -15,10 +20,12 @@ function App() {
   const [currentOrderId, setCurrentOrderId] = useState(null);
   const [orderStatus, setOrderStatus] = useState(null);
 
+  console.log("✅ Backend URL used:", BACKEND_URL);
+
   useEffect(() => {
-    axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/products`)
+    axios.get(`${BACKEND_URL}/api/products`)
       .then(res => setProducts(res.data))
-      .catch(console.error);
+      .catch(err => console.error("Fetch products error:", err));
   }, []);
 
   const addToCart = (product) => {
@@ -45,7 +52,7 @@ function App() {
     setLoading(true);
     try {
       const items = cart.map(i => ({ id: i.id, price: i.price, quantity: i.quantity }));
-      const { data } = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/create-payment-intent`, {
+      const { data } = await axios.post(`${BACKEND_URL}/api/create-payment-intent`, {
         items,
         customerEmail
       });
