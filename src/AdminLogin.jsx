@@ -9,40 +9,18 @@ function AdminLogin() {
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
-    e.preventDefault();  // Important: prevents page reload
-    console.log("Login button clicked");
-    console.log("Email:", email, "Password:", password);
-
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-    console.log("Supabase response:", { data, error });
-
-    if (error) {
-      console.error("Login error:", error.message);
-      setError(error.message);
-    } else {
-      console.log("Login success, navigating to dashboard");
-      navigate('/admin/dashboard');
-    }
+    e.preventDefault();
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) setError(error.message);
+    else navigate('/admin/dashboard');
   };
 
   return (
     <div className="admin-login">
       <h2>Admin Login</h2>
       <form onSubmit={handleLogin}>
-        <input 
-          type="email" 
-          placeholder="Email" 
-          value={email} 
-          onChange={e => setEmail(e.target.value)} 
-          required 
-        />
-        <input 
-          type="password" 
-          placeholder="Password" 
-          value={password} 
-          onChange={e => setPassword(e.target.value)} 
-          required 
-        />
+        <input type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} required />
+        <input type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} required />
         <button type="submit">Login</button>
         {error && <p style={{color:'red'}}>{error}</p>}
       </form>
