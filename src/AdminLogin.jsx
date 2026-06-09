@@ -8,11 +8,20 @@ function AdminLogin() {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
+  console.log("AdminLogin component loaded. Supabase client:", supabase);
+
   const handleLogin = async (e) => {
     e.preventDefault();
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
-    if (error) setError(error.message);
-    else navigate('/admin/dashboard');
+    console.log("Login button clicked. Email:", email);
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    console.log("SignIn response:", { data, error });
+    if (error) {
+      console.error("Login error:", error.message);
+      setError(error.message);
+    } else {
+      console.log("Login success, navigating to dashboard");
+      navigate('/admin/dashboard');
+    }
   };
 
   return (
