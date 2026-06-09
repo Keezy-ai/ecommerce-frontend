@@ -3,23 +3,22 @@ import { supabase } from './supabaseClient';
 import { useNavigate } from 'react-router-dom';
 
 function AdminLogin() {
+  alert("AdminLogin component is rendering!"); // 👈 test alert
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  console.log("AdminLogin component loaded. Supabase client:", supabase);
-
   const handleLogin = async (e) => {
     e.preventDefault();
-    console.log("Login button clicked. Email:", email);
+    alert("Login button clicked!"); // 👈 test alert
     const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-    console.log("SignIn response:", { data, error });
     if (error) {
-      console.error("Login error:", error.message);
+      alert("Login error: " + error.message);
       setError(error.message);
     } else {
-      console.log("Login success, navigating to dashboard");
+      alert("Login success! Redirecting...");
       navigate('/admin/dashboard');
     }
   };
