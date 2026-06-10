@@ -7,25 +7,29 @@ import './App.css';
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
-// ----------------------------------------------
-// 🔥 HARDCODED BACKEND URL – REPLACE WITH YOUR RENDER URL
-// ----------------------------------------------
+// Hardcoded backend URL (your Render URL)
 const BACKEND_URL = "https://ecommerce-backend-c5fg.onrender.com";
 
 function App() {
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState([]);
   const [customerEmail, setCustomerEmail] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [currentOrderId, setCurrentOrderId] = useState(null);
   const [orderStatus, setOrderStatus] = useState(null);
 
-  console.log("✅ Backend URL used:", BACKEND_URL);
+  console.log("Backend URL used:", BACKEND_URL);
 
   useEffect(() => {
     axios.get(`${BACKEND_URL}/api/products`)
-      .then(res => setProducts(res.data))
-      .catch(err => console.error("Fetch products error:", err));
+      .then(res => {
+        setProducts(res.data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error("Fetch products error:", err);
+        setLoading(false);
+      });
   }, []);
 
   const addToCart = (product) => {
@@ -93,6 +97,15 @@ function App() {
       .subscribe();
     return () => supabase.removeChannel(channel);
   }, [currentOrderId]);
+
+  if (loading) {
+    return (
+      <div className="loading-spinner">
+        <div className="spinner"></div>
+        <p>Loading products...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="container">
